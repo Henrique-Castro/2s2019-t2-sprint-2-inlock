@@ -25,3 +25,4 @@ CREATE TABLE Jogos(
 	Valor MONEY NOT NULL,
 	EstudioId INT FOREIGN KEY REFERENCES Estudios(EstudioId)
 );
+
