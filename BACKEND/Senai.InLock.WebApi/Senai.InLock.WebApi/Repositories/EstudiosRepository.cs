@@ -1,12 +1,11 @@
-﻿using Senai.InLock.WebApi.Domains;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Senai.InLock.WebApi.Repositories
 {
-    public class EstudioRepository
+    public class EstudiosRepository
     {
         Estudios estudios = new Estudios();
 
@@ -68,7 +67,5 @@ namespace Senai.InLock.WebApi.Repositories
                 ctx.SaveChanges();
             }
         }
-
     }
 }
-

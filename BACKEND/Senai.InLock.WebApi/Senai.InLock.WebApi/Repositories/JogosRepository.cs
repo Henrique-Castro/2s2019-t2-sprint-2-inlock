@@ -6,14 +6,11 @@ using System.Threading.Tasks;
 
 namespace Senai.InLock.WebApi.Repositories
 {
-    public class JogoRepository
+    public class JogosRepository
     {
-
-        Jogos Jogos = new Jogos();
-        //listar
         public List<Jogos> Listar()
         {
-            using(InLockContext ctx = new InLockContext())
+            using (InLockContext ctx = new InLockContext())
             {
                 return ctx.Jogos.ToList();
             }
@@ -28,29 +25,6 @@ namespace Senai.InLock.WebApi.Repositories
 
             }
         }
-        //adicionar
-        public void Cadastrar(Jogos jogo)
-        {
-            using (InLockContext ctx = new InLockContext())
-            {
-                ctx.Jogos.Add(jogo);
-                ctx.SaveChanges();
-            }
-        }
-        //atualizar
-        public void Atualizar(Jogos jogo)
-        {
-            using(InLockContext ctx = new InLockContext())
-            {
-                Jogos jogoEncontrado = ctx.Jogos.FirstOrDefault(x => x.JogoId == jogo.JogoId);
-
-                jogoEncontrado.NomeDoJogo = jogo.NomeDoJogo;
-
-                ctx.Jogos.Update(jogoEncontrado);
-
-                ctx.SaveChanges();
-            }
-        }
         //deletar
         public void Deletar(int id)
         {
@@ -59,6 +33,27 @@ namespace Senai.InLock.WebApi.Repositories
                 Jogos jogoEncotrado = ctx.Jogos.Find(id);
                 ctx.Jogos.Remove(jogoEncotrado);
                 ctx.SaveChanges();
+            }
+        }
+
+        public void Cadastrar(Jogos novoJogo)
+        {
+            using (InLockContext ctx = new InLockContext())
+            {
+                ctx.Jogos.Add(novoJogo);
+                ctx.SaveChanges();
+            }
+        }
+
+        public void Atualizar(Jogos jogoModificado)
+        {
+            using(InLockContext ctx = new InLockContext())
+            {
+                Jogos jogoEncontrado = ctx.Jogos.FirstOrDefault(x => x.JogoId == jogoModificado.JogoId);
+                if(jogoEncontrado == null)
+                {
+                    throw new Exception();
+                }
             }
         }
     }

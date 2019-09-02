@@ -14,7 +14,7 @@ namespace Senai.InLock.WebApi.Controllers
     [ApiController]
     public class EstudiosController : ControllerBase
     {
-        EstudioRepository estudioRepository = new EstudioRepository();
+        EstudiosRepository estudiosRepository = new EstudiosRepository();
 
 
         //listar
@@ -22,7 +22,7 @@ namespace Senai.InLock.WebApi.Controllers
         [HttpGet]
         public IActionResult listar()
         {
-            return Ok(estudioRepository.Listar());
+            return Ok(estudiosRepository.Listar());
         }
 
 
@@ -34,7 +34,7 @@ namespace Senai.InLock.WebApi.Controllers
         [HttpGet("{id}")]
         public IActionResult BuscarPorId(int id)
         {
-            Estudios estudios = estudioRepository.BuscarPorId(id);
+            Estudios estudios = estudiosRepository.BuscarPorId(id);
 
             return Ok(estudios);
         }
@@ -50,7 +50,7 @@ namespace Senai.InLock.WebApi.Controllers
         {
             try
             {
-                estudioRepository.cadastrar(estudio);
+                estudiosRepository.cadastrar(estudio);
                 return Ok();
             }
             catch (Exception ex)
@@ -66,7 +66,7 @@ namespace Senai.InLock.WebApi.Controllers
         [HttpDelete("{id}")]
         public IActionResult Deletar(int id)
         {
-            estudioRepository.deletar(id);
+            estudiosRepository.deletar(id);
             return Ok();
         }
 
@@ -79,12 +79,12 @@ namespace Senai.InLock.WebApi.Controllers
         {
             try
             {
-                Estudios estudioBuscado = estudioRepository.BuscarPorId(estudio.EstudioId);
+                Estudios estudioBuscado = estudiosRepository.BuscarPorId(estudio.EstudioId);
                 if (estudioBuscado ==null)
                 {
                     return NotFound();
                 }
-                estudioRepository.Atualizar(estudio);
+                estudiosRepository.Atualizar(estudio);
                 return Ok();
             }
             catch (Exception ex)
