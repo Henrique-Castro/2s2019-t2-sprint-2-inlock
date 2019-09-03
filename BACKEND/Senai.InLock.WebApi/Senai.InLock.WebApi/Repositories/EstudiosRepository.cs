@@ -72,7 +72,9 @@ namespace Senai.InLock.WebApi.Repositories
         {
             using(InLockContext ctx = new InLockContext())
             {
-                return ctx.Estudios.Include(jogos => jogos.EstudioId == estudios.EstudioId).ToList();
+                JogosRepository JogosRepository = new JogosRepository();
+                List<Jogos> listaDeJogos = JogosRepository.Listar();
+                return ctx.Estudios.Include(x => x.Jogos).Where(x => x.EstudioId == listaDeJogos.Single().EstudioId).ToList();
             }
         }
     }

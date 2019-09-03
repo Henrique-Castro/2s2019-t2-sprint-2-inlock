@@ -15,7 +15,24 @@ namespace Senai.InLock.WebApi.Repositories
                 return ctx.Jogos.ToList();
             }
         }
-        //listar por id
+
+        public List<Jogos> ListarPorValor()
+        {
+            using (InLockContext ctx = new InLockContext())
+            {
+                return ctx.Jogos.OrderByDescending(x => x.Valor).Take(5).ToList();
+            }
+        }
+
+        public List<Jogos> ListarPorLancamento()
+        {
+            using (InLockContext ctx = new InLockContext())
+            {
+                return ctx.Jogos.OrderByDescending(x => x.DataLancamento).ToList();
+            }
+        }
+
+
         public Jogos BuscarPorId(int id)
         {
             using (InLockContext ctx = new InLockContext())
@@ -23,7 +40,16 @@ namespace Senai.InLock.WebApi.Repositories
                 return ctx.Jogos.FirstOrDefault(x => x.JogoId == id);
             }
         }
-        //deletar
+        //Extra é extra
+        //public int[] Contagem()
+        //{
+        //    using (InLockContext ctx = new InLockContext())
+         //   {
+        //        int[] listaDeContagens = ctx.Jogos.
+         //       return 
+          //  }
+        //}
+         
         public void Deletar(int id)
         {
             using (InLockContext ctx = new InLockContext())

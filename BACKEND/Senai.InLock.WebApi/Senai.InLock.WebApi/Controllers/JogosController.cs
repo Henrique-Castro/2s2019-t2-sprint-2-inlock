@@ -31,6 +31,34 @@ namespace Senai.InLock.WebApi.Controllers
             }
         }
 
+        [Authorize]
+        [HttpGet("Caros")]
+        public IActionResult ListarMaisCaros()
+        {
+            try
+            {
+                return Ok(JogosRepository.ListarPorValor());
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [Authorize]
+        [HttpGet("Lancamentos")]
+        public IActionResult ListarPorDataLancamento()
+        {
+            try
+            {
+                return Ok(JogosRepository.ListarPorLancamento());
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [Authorize(Roles = "ADMINISTRADOR")]
         [HttpPost]
         public IActionResult Cadastrar(Jogos novoJogos)

@@ -27,7 +27,19 @@ namespace Senai.InLock.WebApi.Controllers
         }
 
         [Authorize]
-        //[HttpGet("Jogos")]
+        [HttpGet("Jogos")]
+        public IActionResult BuscarEstudiosJogos()
+        {
+            try
+            {
+                return Ok(estudiosRepository.ListarEstudiosJogos()); 
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [Authorize]
         [HttpGet("{id}")]
         public IActionResult BuscarPorId(int id)
         {
