@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using Senai.InLock.WebApi.Domains;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,8 +20,6 @@ namespace Senai.InLock.WebApi.Repositories
             }
         }
 
-        // buscar por id
-
         public Estudios BuscarPorId(int id)
         {
             using (InLockContext ctx = new InLockContext())
@@ -27,13 +27,13 @@ namespace Senai.InLock.WebApi.Repositories
                 return ctx.Estudios.FirstOrDefault(x => x.EstudioId == id);
             }
         }
-        //adicionar
+        
 
-        public void cadastrar(Estudios estudio)
+        public void Cadastrar(Estudios novoEstudio)
         {
             using (InLockContext ctx = new InLockContext())
             {
-                ctx.Estudios.Add(estudio);
+                ctx.Estudios.Add(novoEstudio);
                 ctx.SaveChanges();
             }
         }
@@ -51,9 +51,6 @@ namespace Senai.InLock.WebApi.Repositories
             }
         }
 
-
-
-        //atualizar
         public void Atualizar(Estudios estudio)
         {
             using (InLockContext ctx = new InLockContext())
@@ -61,10 +58,21 @@ namespace Senai.InLock.WebApi.Repositories
                 Estudios EstudioBuscado = ctx.Estudios.FirstOrDefault(x => x.EstudioId == estudio.EstudioId);
 
                 EstudioBuscado.NomeEstudio = estudio.NomeEstudio;
+                EstudioBuscado.PaisOrigem = estudio.PaisOrigem;
+                EstudioBuscado.DataCriacao = estudio.DataCriacao;
+                EstudioBuscado.UsuarioId = estudio.UsuarioId;
 
                 ctx.Estudios.Update(EstudioBuscado);
 
                 ctx.SaveChanges();
+            }
+        }
+
+        public List<Estudios> ListarEstudiosJogos()
+        {
+            using(InLockContext ctx = new InLockContext())
+            {
+                return ctx.Estudios.Include(jogos => jogos.EstudioId == estudios.EstudioId).ToList();
             }
         }
     }

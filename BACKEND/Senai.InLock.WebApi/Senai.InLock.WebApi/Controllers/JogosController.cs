@@ -11,6 +11,7 @@ using Senai.InLock.WebApi.Repositories;
 namespace Senai.InLock.WebApi.Controllers
 {
     [Route("api/[controller]")]
+    [Produces("application/json")]
     [ApiController]
     public class JogosController : ControllerBase
     {
@@ -60,13 +61,7 @@ namespace Senai.InLock.WebApi.Controllers
                 return BadRequest();
             }
         }
-
-        [HttpGet]
-        public IActionResult listar()
-        {
-            return Ok(JogosRepository.Listar());
-        }
-
+   
         [Authorize(Roles = "ADMINISTRADOR")]
         [HttpGet("{id}")]
         public IActionResult BuscarPorId(int id)

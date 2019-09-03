@@ -21,8 +21,6 @@ namespace Senai.InLock.WebApi.Repositories
             using (InLockContext ctx = new InLockContext())
             {
                 return ctx.Jogos.FirstOrDefault(x => x.JogoId == id);
-
-
             }
         }
         //deletar

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Senai.InLock.WebApi.Domains;
@@ -18,25 +19,26 @@ namespace Senai.InLock.WebApi.Controllers
 
 
         //listar
-
+        [Authorize]
         [HttpGet]
         public IActionResult listar()
         {
             return Ok(estudiosRepository.Listar());
         }
 
-
-
-
-
-        //BuscarPorId
-
+        [Authorize]
+        //[HttpGet("Jogos")]
         [HttpGet("{id}")]
         public IActionResult BuscarPorId(int id)
         {
-            Estudios estudios = estudiosRepository.BuscarPorId(id);
-
-            return Ok(estudios);
+            try
+            {
+                return Ok(estudiosRepository.BuscarPorId(id));
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
 
@@ -44,13 +46,13 @@ namespace Senai.InLock.WebApi.Controllers
 
 
         //Cadastar
-
+        [Authorize(Roles = "ADMINISTRADOR")]
         [HttpPost]
         public IActionResult Cadastrar(Estudios estudio)
         {
             try
             {
-                estudiosRepository.cadastrar(estudio);
+                estudiosRepository.Cadastrar(estudio);
                 return Ok();
             }
             catch (Exception ex)
@@ -63,6 +65,7 @@ namespace Senai.InLock.WebApi.Controllers
 
 
         //Deletar
+        [Authorize(Roles = "ADMINISTRADOR")]
         [HttpDelete("{id}")]
         public IActionResult Deletar(int id)
         {
@@ -74,23 +77,25 @@ namespace Senai.InLock.WebApi.Controllers
 
 
         //Atualizar
-        [HttpPut]
-        public IActionResult Atualizar(Estudios estudio)
+        [Authorize(Roles = "ADMINISTRADOR")]
+        [HttpPut("{id}")]
+        public IActionResult Atualizar(int id, Estudios estudio)
         {
             try
             {
-                Estudios estudioBuscado = estudiosRepository.BuscarPorId(estudio.EstudioId);
+                Estudios estudioBuscado = estudiosRepository.BuscarPorId(id);
                 if (estudioBuscado ==null)
                 {
                     return NotFound();
                 }
+                estudio.EstudioId = id;
                 estudiosRepository.Atualizar(estudio);
                 return Ok();
             }
             catch (Exception ex)
             {
 
-                return BadRequest(new { mensagem = "Ocorreu um erro na execução" + ex.Message });
+                return BadRequest(ex.Message);
             }
         }
 
